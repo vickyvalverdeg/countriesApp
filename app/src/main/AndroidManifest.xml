@@ -12,12 +12,12 @@
         android:theme="@style/Theme.CountriesApp"
         tools:targetApi="31">
         <activity
-            android:name=".CountriesActivity"
+            android:name=".view.CountriesActivity"
             android:exported="false"
             android:label="@string/title_activity_countries"
             android:theme="@style/Theme.CountriesApp" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.CountriesApp">
