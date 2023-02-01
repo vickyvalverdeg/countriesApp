@@ -4,4 +4,7 @@
     <style name="Theme.CountriesApp" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/purple_700</item>
     </style>
+    <style name="SplashScreenTheme" parent="Theme.CountriesApp">
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
 </resources>
