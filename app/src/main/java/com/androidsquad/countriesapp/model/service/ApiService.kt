@@ -1,11 +1,10 @@
 package com.androidsquad.countriesapp.model.service
 
-import com.androidsquad.countriesapp.model.Movie
+import com.androidsquad.countriesapp.model.Country
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
@@ -14,7 +13,7 @@ interface ApiService {
 
     @Headers("Content-Type: application/json")
     @POST("/")
-    suspend fun getCountries(@Body body: JsonObject) : List<Movie>
+    suspend fun getCountries(@Body body: JsonObject) : List<Country>
 
     companion object {
         private var apiService: ApiService? = null

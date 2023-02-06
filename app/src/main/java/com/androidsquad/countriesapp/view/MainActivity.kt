@@ -49,10 +49,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.androidsquad.countriesapp.R
 import com.androidsquad.countriesapp.model.Country
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberImagePainter
-import coil.size.Scale
-import coil.transform.CircleCropTransformation
-import com.androidsquad.countriesapp.model.Movie
+import com.androidsquad.countriesapp.model.Country
 import com.androidsquad.countriesapp.viewModel.MainViewModel
 
 class MainActivity : ComponentActivity() {
@@ -63,7 +60,6 @@ class MainActivity : ComponentActivity() {
             ViewContainer()
             // Greeting("Android")
             Surface(color = MaterialTheme.colors.background) {
-                MovieList(movieList = mainViewModel.countryListResponse)
                 mainViewModel.getCountryList()
             }
         }
