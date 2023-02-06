@@ -130,16 +130,13 @@ fun BottomBarContainer(modifier: Modifier = Modifier) {
 fun Content(modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
     val countryList = mutableListOf<Country>()
-    countryList.add(Country("Asia", 1))
-    countryList.add(Country("Africa", 1))
-    countryList.add(Country("Europe", 1))
-    countryList.add(Country("America", 1))
-    countryList.add(Country("Ocenia", 1))
-    countryList.add(Country("Ocenia", 1))
-    countryList.add(Country("Ocenia", 1))
-    countryList.add(Country("Ocenia", 1))
-    countryList.add(Country("Ocenia", 1))
-    countryList.add(Country("Ocenia", 1))
+    countryList.add(Country("Asia", R.drawable.asia_taj_mahal))
+    countryList.add(Country("Africa", R.drawable.africa))
+    countryList.add(Country("Europe", R.drawable.europa))
+    countryList.add(Country("North America", R.drawable.northamerica))
+    countryList.add(Country("Oceania", R.drawable.oceania))
+    countryList.add(Country("South America", R.drawable.southamerica))
+    countryList.add(Country("Antarctica", R.drawable.antarctica))
 
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
@@ -160,7 +157,11 @@ fun ItemContainer(model: Country) {
     Card(modifier = Modifier
         .padding(8.dp)
         .fillMaxWidth()
-        .clickable {  Toast.makeText( context, "clicked on: "+model.name, Toast.LENGTH_SHORT).show() },
+        .clickable {
+            Toast
+                .makeText(context, "clicked on: " + model.name, Toast.LENGTH_SHORT)
+                .show()
+        },
         elevation = 4.dp,
         shape = RoundedCornerShape(size = 12.dp)
     ) {
@@ -175,7 +176,7 @@ fun ItemContainer(model: Country) {
         }
         Row (horizontalArrangement = Arrangement.End){
             Image(
-                painter = rememberAsyncImagePainter("https://media.istockphoto.com/id/1218071177/es/foto/monumento-a-la-l%C3%ADnea-ecuatorial-quito-ecuador.jpg?s=1024x1024&w=is&k=20&c=00tiBq_JgFyWDJk7pwGZGWWSV0kcB5-qa35Grlws75Q="),
+                painter = painterResource(id = model.image),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
