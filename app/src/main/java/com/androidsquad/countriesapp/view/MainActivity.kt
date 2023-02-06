@@ -63,8 +63,8 @@ class MainActivity : ComponentActivity() {
             ViewContainer()
             // Greeting("Android")
             Surface(color = MaterialTheme.colors.background) {
-                MovieList(movieList = mainViewModel.movieListResponse)
-                mainViewModel.getMovieList()
+                MovieList(movieList = mainViewModel.countryListResponse)
+                mainViewModel.getCountryList()
             }
         }
     }
