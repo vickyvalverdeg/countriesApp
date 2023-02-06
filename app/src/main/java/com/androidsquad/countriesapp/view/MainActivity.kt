@@ -1,6 +1,7 @@
 package com.androidsquad.countriesapp.view
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.*
@@ -15,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,6 +39,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TopBarContainer(modifier: Modifier = Modifier) {
+    val context= LocalContext.current
     TopAppBar(
         title = {
             Text(
@@ -50,7 +53,9 @@ fun TopBarContainer(modifier: Modifier = Modifier) {
         },
         backgroundColor = colorResource(id = R.color.background_top_bar),
         actions = {
-            IconButton(onClick = { /* doSomething() */ }) {
+            IconButton(onClick = {
+                Toast.makeText( context, " account clicked!", Toast.LENGTH_SHORT).show()
+            }) {
                 Image(
                     painter = painterResource(id = R.drawable.account_icon),
                     contentDescription = "Account",
@@ -66,9 +71,10 @@ fun TopBarContainer(modifier: Modifier = Modifier) {
 @Composable
 fun BottomBarContainer(modifier: Modifier = Modifier) {
     val selectedIndex = remember { mutableStateOf(0) }
+    val context= LocalContext.current
     BottomNavigation(
         backgroundColor = colorResource(id = R.color.background_bottom_bar),
-        elevation = 20.dp
+       elevation = 0.dp
     ) {
         BottomNavigationItem(icon = {
             Image(
@@ -82,7 +88,9 @@ fun BottomBarContainer(modifier: Modifier = Modifier) {
             label = { Text(text = "Label") },
             selected = (selectedIndex.value == 0),
             onClick = {
+                Toast.makeText( context, "1 clicked!", Toast.LENGTH_SHORT).show()
                 selectedIndex.value = 0
+
             })
 
         BottomNavigationItem(icon = {
@@ -97,6 +105,7 @@ fun BottomBarContainer(modifier: Modifier = Modifier) {
             label = { Text(text = "Label") },
             selected = (selectedIndex.value == 1),
             onClick = {
+                Toast.makeText( context, "2 clicked!", Toast.LENGTH_SHORT).show()
                 selectedIndex.value = 1
             })
 
@@ -112,6 +121,7 @@ fun BottomBarContainer(modifier: Modifier = Modifier) {
             label = { Text(text = "Label") },
             selected = (selectedIndex.value == 2),
             onClick = {
+                Toast.makeText( context, "3 clicked!", Toast.LENGTH_SHORT).show()
                 selectedIndex.value = 2
             })
     }
@@ -148,9 +158,11 @@ fun Content(modifier: Modifier = Modifier) {
 
 @Composable
 fun ItemContainer(model: Country) {
+    val context= LocalContext.current
     Card(modifier = Modifier
         .padding(8.dp)
-        .fillMaxWidth(),
+        .fillMaxWidth()
+        .clickable {  Toast.makeText( context, "clicked on: "+model.name, Toast.LENGTH_SHORT).show() },
         elevation = 4.dp,
         shape = RoundedCornerShape(size = 12.dp)
     ) {
