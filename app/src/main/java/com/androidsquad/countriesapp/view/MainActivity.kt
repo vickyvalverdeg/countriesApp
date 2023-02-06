@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -17,15 +20,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.androidsquad.countriesapp.R
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import com.androidsquad.countriesapp.R
 import com.androidsquad.countriesapp.model.Country
 
 class MainActivity : ComponentActivity() {
@@ -59,7 +62,6 @@ fun TopBarContainer(modifier: Modifier = Modifier) {
                 Image(
                     painter = painterResource(id = R.drawable.account_icon),
                     contentDescription = "Account",
-                    //contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .size(20.dp)
                 )
@@ -80,7 +82,6 @@ fun BottomBarContainer(modifier: Modifier = Modifier) {
             Image(
                 painter = painterResource(id = R.drawable.dot_icon),
                 contentDescription = "Label",
-                //contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .size(20.dp)
             )
@@ -97,7 +98,6 @@ fun BottomBarContainer(modifier: Modifier = Modifier) {
             Image(
                 painter = painterResource(id = R.drawable.triangle_icon),
                 contentDescription = "Label",
-                //contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .size(20.dp)
             )
@@ -113,7 +113,6 @@ fun BottomBarContainer(modifier: Modifier = Modifier) {
             Image(
                 painter = painterResource(id = R.drawable.triangle_icon),
                 contentDescription = "Label",
-                //contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .size(20.dp)
             )
@@ -145,7 +144,6 @@ fun Content(modifier: Modifier = Modifier) {
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         modifier = Modifier
-            //.verticalScroll(scrollState)
             .fillMaxSize()
             .background(color = colorResource(id = R.color.background))
             .padding(start = 0.dp, top = 0.dp, end = 0.dp, bottom = 50.dp)
@@ -177,7 +175,6 @@ fun ItemContainer(model: Country) {
         }
         Row (horizontalArrangement = Arrangement.End){
             Image(
-                //painter = painterResource(R.drawable.androidparty),
                 painter = rememberAsyncImagePainter("https://media.istockphoto.com/id/1218071177/es/foto/monumento-a-la-l%C3%ADnea-ecuatorial-quito-ecuador.jpg?s=1024x1024&w=is&k=20&c=00tiBq_JgFyWDJk7pwGZGWWSV0kcB5-qa35Grlws75Q="),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
