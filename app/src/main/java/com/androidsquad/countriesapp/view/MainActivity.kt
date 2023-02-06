@@ -3,149 +3,189 @@ package com.androidsquad.countriesapp.view
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
 import com.androidsquad.countriesapp.R
-import com.androidsquad.countriesapp.model.Country
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
+import com.androidsquad.countriesapp.model.Country
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Wrapper()
+            ViewContainer()
         }
     }
 }
 
-/*@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
-    Greeting("Android")
-}*/
-
-@Composable
-fun TitleContainer(modifier: Modifier = Modifier) {
-    /*Row(modifier = modifier) {
-        Text(text = stringResource(R.string.title),
-            fontSize = 36.sp,
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentWidth(Alignment.CenterHorizontally)
-                .padding(start = 16.dp, top = 16.dp))
-    }*/
-
+fun TopBarContainer(modifier: Modifier = Modifier) {
     TopAppBar(
         title = {
             Text(
                 text = stringResource(R.string.title),
+                fontSize = 22.sp,
                 textAlign = TextAlign.Center,
+                color = colorResource(id = R.color.white),
                 modifier = Modifier
                     .fillMaxWidth()
-                /*fontSize = 30.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentWidth(Alignment.CenterHorizontally)
-                    .padding(start = 16.dp, top = 5.dp)*/
             )
         },
-
+        backgroundColor = colorResource(id = R.color.background_top_bar),
         actions = {
             IconButton(onClick = { /* doSomething() */ }) {
-                Icon(Icons.Filled.AccountBox, contentDescription = "Account")
+                Image(
+                    painter = painterResource(id = R.drawable.account_icon),
+                    contentDescription = "Account",
+                    //contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .size(20.dp)
+                )
             }
         }
     )
 }
 
 @Composable
-fun ListContainer(modifier: Modifier = Modifier) {
-    val arrayOfCountries = arrayOf(
-        Country("Ecuador1", 1),
-        Country("Ecuador2", 2),
-        Country("Ecuador3", 3),
-        Country("Ecuador4", 4),
-        Country("Ecuador5", 5),
-        Country("Ecuador6", 6),
-        Country("Ecuador7", 7),
-        Country("Ecuador8", 8),
-        Country("Ecuador9", 9),
-        Country("Ecuador10", 10)
-    )
+fun BottomBarContainer(modifier: Modifier = Modifier) {
+    val selectedIndex = remember { mutableStateOf(0) }
+    BottomNavigation(
+        backgroundColor = colorResource(id = R.color.background_bottom_bar),
+        elevation = 20.dp
+    ) {
+        BottomNavigationItem(icon = {
+            Image(
+                painter = painterResource(id = R.drawable.dot_icon),
+                contentDescription = "Label",
+                //contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .size(20.dp)
+            )
+        },
+            label = { Text(text = "Label") },
+            selected = (selectedIndex.value == 0),
+            onClick = {
+                selectedIndex.value = 0
+            })
+
+        BottomNavigationItem(icon = {
+            Image(
+                painter = painterResource(id = R.drawable.triangle_icon),
+                contentDescription = "Label",
+                //contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .size(20.dp)
+            )
+        },
+            label = { Text(text = "Label") },
+            selected = (selectedIndex.value == 1),
+            onClick = {
+                selectedIndex.value = 1
+            })
+
+        BottomNavigationItem(icon = {
+            Image(
+                painter = painterResource(id = R.drawable.triangle_icon),
+                contentDescription = "Label",
+                //contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .size(20.dp)
+            )
+        },
+            label = { Text(text = "Label") },
+            selected = (selectedIndex.value == 2),
+            onClick = {
+                selectedIndex.value = 2
+            })
+    }
+}
+
+@Composable
+fun Content(modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
-    // Column is a composable that places its children in a vertical sequence.
-    Column(
-        modifier = Modifier.verticalScroll(scrollState)
-    )
-    {
-        for (country in arrayOfCountries) {
-            ItemContainer(country.name, country.image)
+    val countryList = mutableListOf<Country>()
+    countryList.add(Country("Asia", 1))
+    countryList.add(Country("Africa", 1))
+    countryList.add(Country("Europe", 1))
+    countryList.add(Country("America", 1))
+    countryList.add(Country("Ocenia", 1))
+    countryList.add(Country("Ocenia", 1))
+    countryList.add(Country("Ocenia", 1))
+    countryList.add(Country("Ocenia", 1))
+    countryList.add(Country("Ocenia", 1))
+    countryList.add(Country("Ocenia", 1))
+
+    LazyColumn(
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        modifier = Modifier
+            //.verticalScroll(scrollState)
+            .fillMaxSize()
+            .background(color = colorResource(id = R.color.background))
+            .padding(start = 0.dp, top = 0.dp, end = 0.dp, bottom = 50.dp)
+            ) {
+        items(countryList){model ->
+            ItemContainer(model = model)
         }
     }
 }
 
 @Composable
-fun ItemContainer(name: String, img: Int, modifier: Modifier = Modifier) {
-    Row(modifier = modifier) {
-        Text(text = name)
-        Image(
-            //painter = painterResource(R.drawable.androidparty),
-            painter = rememberAsyncImagePainter("https://media.istockphoto.com/id/1218071177/es/foto/monumento-a-la-l%C3%ADnea-ecuatorial-quito-ecuador.jpg?s=1024x1024&w=is&k=20&c=00tiBq_JgFyWDJk7pwGZGWWSV0kcB5-qa35Grlws75Q="),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(88.dp)
-                .clip(CircleShape)
-        )
+fun ItemContainer(model: Country) {
+    Card(modifier = Modifier
+        .padding(8.dp)
+        .fillMaxWidth(),
+        elevation = 4.dp,
+        shape = RoundedCornerShape(size = 12.dp)
+    ) {
+        Column(horizontalAlignment = Alignment.Start,) {
+            Text(text = model.name,
+                style = MaterialTheme.typography.h6,
+                modifier = Modifier.padding(start = 16.dp))
+            Text(text = "Test",
+                style = MaterialTheme.typography.body1,
+                modifier = Modifier.padding(start = 16.dp))
+
+        }
+        Row (horizontalArrangement = Arrangement.End){
+            Image(
+                //painter = painterResource(R.drawable.androidparty),
+                painter = rememberAsyncImagePainter("https://media.istockphoto.com/id/1218071177/es/foto/monumento-a-la-l%C3%ADnea-ecuatorial-quito-ecuador.jpg?s=1024x1024&w=is&k=20&c=00tiBq_JgFyWDJk7pwGZGWWSV0kcB5-qa35Grlws75Q="),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(88.dp)
+            )
+        }
     }
 }
 
-@Composable
-fun BottomContainer(modifier: Modifier = Modifier) {
-    BottomAppBar() {
-        Spacer(Modifier.weight(0.5f, true))
-        IconButton(onClick = { /*TODO*/ }) { // (3)
-            Icon(imageVector = Icons.Filled.Home, contentDescription = "Buscar")
-        }
-        Spacer(Modifier.weight(0.5f, true))
-        IconButton(onClick = { /*TODO*/ }) { // (3)
-            Icon(imageVector = Icons.Filled.Home, contentDescription = "Buscar")
-        }
-        Spacer(Modifier.weight(0.5f, true))
-        IconButton(onClick = { /*TODO*/ }) { // (3)
-            Icon(imageVector = Icons.Filled.Home, contentDescription = "Buscar")
-        }
-        Spacer(Modifier.weight(0.5f, true))
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
-fun Wrapper(modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        TitleContainer()
-        Column(modifier = modifier.height(400.dp)) {
-            ListContainer()
-        }
-        BottomContainer()
+fun ViewContainer(modifier: Modifier = Modifier) {
+    val scaffoldState = rememberScaffoldState()
+    Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = { TopBarContainer() },
+        bottomBar = { BottomBarContainer() }
+    ) { padding ->
+        Content(modifier = Modifier.padding(padding))
     }
 }
