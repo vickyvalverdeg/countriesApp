@@ -11,7 +11,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -28,7 +27,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
 import com.androidsquad.countriesapp.R
 import com.androidsquad.countriesapp.model.Country
 import com.androidsquad.countriesapp.viewModel.MainViewModel
@@ -39,7 +37,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ViewContainer()
-            // Greeting("Android")
+
             Surface(color = MaterialTheme.colors.background) {
                 mainViewModel.getCountryList()
             }
@@ -48,8 +46,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun TopBarContainer(modifier: Modifier = Modifier) {
-    val context= LocalContext.current
+fun TopBarContainer() {
+    val context = LocalContext.current
     TopAppBar(
         title = {
             Text(
@@ -64,7 +62,7 @@ fun TopBarContainer(modifier: Modifier = Modifier) {
         backgroundColor = colorResource(id = R.color.background_top_bar),
         actions = {
             IconButton(onClick = {
-                Toast.makeText( context, " account clicked!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, " account clicked!", Toast.LENGTH_SHORT).show()
             }) {
                 Image(
                     painter = painterResource(id = R.drawable.account_icon),
@@ -78,12 +76,12 @@ fun TopBarContainer(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun BottomBarContainer(modifier: Modifier = Modifier) {
+fun BottomBarContainer() {
     val selectedIndex = remember { mutableStateOf(0) }
-    val context= LocalContext.current
+    val context = LocalContext.current
     BottomNavigation(
         backgroundColor = colorResource(id = R.color.background_bottom_bar),
-       elevation = 0.dp
+        elevation = 0.dp
     ) {
         BottomNavigationItem(icon = {
             Image(
@@ -96,7 +94,7 @@ fun BottomBarContainer(modifier: Modifier = Modifier) {
             label = { Text(text = "Label") },
             selected = (selectedIndex.value == 0),
             onClick = {
-                Toast.makeText( context, "1 clicked!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "1 clicked!", Toast.LENGTH_SHORT).show()
                 selectedIndex.value = 0
 
             })
@@ -112,7 +110,7 @@ fun BottomBarContainer(modifier: Modifier = Modifier) {
             label = { Text(text = "Label") },
             selected = (selectedIndex.value == 1),
             onClick = {
-                Toast.makeText( context, "2 clicked!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "2 clicked!", Toast.LENGTH_SHORT).show()
                 selectedIndex.value = 1
             })
 
@@ -127,7 +125,7 @@ fun BottomBarContainer(modifier: Modifier = Modifier) {
             label = { Text(text = "Label") },
             selected = (selectedIndex.value == 2),
             onClick = {
-                Toast.makeText( context, "3 clicked!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "3 clicked!", Toast.LENGTH_SHORT).show()
                 selectedIndex.value = 2
             })
     }
@@ -135,18 +133,14 @@ fun BottomBarContainer(modifier: Modifier = Modifier) {
 
 @Composable
 fun Content(modifier: Modifier = Modifier) {
-    val scrollState = rememberScrollState()
     val countryList = mutableListOf<Country>()
-    countryList.add(Country("Asia", 1))
-    countryList.add(Country("Africa", 1))
-    countryList.add(Country("Europe", 1))
-    countryList.add(Country("America", 1))
-    countryList.add(Country("Ocenia", 1))
-    countryList.add(Country("Ocenia", 1))
-    countryList.add(Country("Ocenia", 1))
-    countryList.add(Country("Ocenia", 1))
-    countryList.add(Country("Ocenia", 1))
-    countryList.add(Country("Ocenia", 1))
+    countryList.add(Country("Asia", R.drawable.asia_taj_mahal))
+    countryList.add(Country("Africa", R.drawable.africa))
+    countryList.add(Country("Europe", R.drawable.europa))
+    countryList.add(Country("North America", R.drawable.northamerica))
+    countryList.add(Country("Oceania", R.drawable.oceania))
+    countryList.add(Country("South America", R.drawable.southamerica))
+    countryList.add(Country("Antarctica", R.drawable.antarctica))
 
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
@@ -154,8 +148,8 @@ fun Content(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .background(color = colorResource(id = R.color.background))
             .padding(start = 0.dp, top = 0.dp, end = 0.dp, bottom = 50.dp)
-            ) {
-        items(countryList){model ->
+    ) {
+        items(countryList) { model ->
             ItemContainer(model = model)
         }
     }
@@ -163,26 +157,35 @@ fun Content(modifier: Modifier = Modifier) {
 
 @Composable
 fun ItemContainer(model: Country) {
-    val context= LocalContext.current
-    Card(modifier = Modifier
-        .padding(8.dp)
-        .fillMaxWidth()
-        .clickable {  Toast.makeText( context, "clicked on: "+model.name, Toast.LENGTH_SHORT).show() },
+    val context = LocalContext.current
+    Card(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .clickable {
+                Toast
+                    .makeText(context, "clicked on: " + model.name, Toast.LENGTH_SHORT)
+                    .show()
+            },
         elevation = 4.dp,
         shape = RoundedCornerShape(size = 12.dp)
     ) {
-        Column(horizontalAlignment = Alignment.Start,) {
-            Text(text = model.name,
+        Column(horizontalAlignment = Alignment.Start) {
+            Text(
+                text = model.name,
                 style = MaterialTheme.typography.h6,
-                modifier = Modifier.padding(start = 16.dp))
-            Text(text = "Test",
+                modifier = Modifier.padding(start = 16.dp)
+            )
+            Text(
+                text = "Test",
                 style = MaterialTheme.typography.body1,
-                modifier = Modifier.padding(start = 16.dp))
+                modifier = Modifier.padding(start = 16.dp)
+            )
 
         }
-        Row (horizontalArrangement = Arrangement.End){
+        Row(horizontalArrangement = Arrangement.End) {
             Image(
-                painter = rememberAsyncImagePainter("https://media.istockphoto.com/id/1218071177/es/foto/monumento-a-la-l%C3%ADnea-ecuatorial-quito-ecuador.jpg?s=1024x1024&w=is&k=20&c=00tiBq_JgFyWDJk7pwGZGWWSV0kcB5-qa35Grlws75Q="),
+                painter = painterResource(id = model.image),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -191,11 +194,6 @@ fun ItemContainer(model: Country) {
         }
     }
 }
-
-
-
-
-
 
 @Preview(showBackground = true)
 @Composable
