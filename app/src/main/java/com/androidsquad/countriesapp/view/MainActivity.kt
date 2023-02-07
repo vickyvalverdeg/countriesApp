@@ -10,7 +10,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -27,7 +26,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
 import com.androidsquad.countriesapp.R
 import com.androidsquad.countriesapp.model.Country
 
@@ -41,7 +39,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun TopBarContainer(modifier: Modifier = Modifier) {
+fun TopBarContainer() {
     val context= LocalContext.current
     TopAppBar(
         title = {
@@ -71,7 +69,7 @@ fun TopBarContainer(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun BottomBarContainer(modifier: Modifier = Modifier) {
+fun BottomBarContainer() {
     val selectedIndex = remember { mutableStateOf(0) }
     val context= LocalContext.current
     BottomNavigation(
@@ -128,7 +126,6 @@ fun BottomBarContainer(modifier: Modifier = Modifier) {
 
 @Composable
 fun Content(modifier: Modifier = Modifier) {
-    val scrollState = rememberScrollState()
     val countryList = mutableListOf<Country>()
     countryList.add(Country("Asia", R.drawable.asia_taj_mahal))
     countryList.add(Country("Africa", R.drawable.africa))
