@@ -37,17 +37,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.R
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
-import com.androidsquad.countriesapp.R
-import com.androidsquad.countriesapp.model.Country
 import androidx.compose.ui.unit.dp
 import com.androidsquad.countriesapp.model.Country
 import com.androidsquad.countriesapp.viewModel.MainViewModel
