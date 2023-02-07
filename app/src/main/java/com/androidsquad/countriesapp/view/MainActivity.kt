@@ -13,7 +13,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -21,9 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,7 +37,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ViewContainer()
-            // Greeting("Android")
             Surface(color = MaterialTheme.colors.background) {
                 mainViewModel.getCountryList()
             }
@@ -47,7 +46,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TopBarContainer() {
-    val context= LocalContext.current
+    val context = LocalContext.current
     TopAppBar(
         title = {
             Text(
@@ -62,7 +61,7 @@ fun TopBarContainer() {
         backgroundColor = colorResource(id = R.color.background_top_bar),
         actions = {
             IconButton(onClick = {
-                Toast.makeText( context, " account clicked!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, " account clicked!", Toast.LENGTH_SHORT).show()
             }) {
                 Image(
                     painter = painterResource(id = R.drawable.account_icon),
@@ -78,10 +77,10 @@ fun TopBarContainer() {
 @Composable
 fun BottomBarContainer() {
     val selectedIndex = remember { mutableStateOf(0) }
-    val context= LocalContext.current
+    val context = LocalContext.current
     BottomNavigation(
         backgroundColor = colorResource(id = R.color.background_bottom_bar),
-       elevation = 0.dp
+        elevation = 0.dp
     ) {
         BottomNavigationItem(icon = {
             Image(
@@ -94,7 +93,7 @@ fun BottomBarContainer() {
             label = { Text(text = "Label") },
             selected = (selectedIndex.value == 0),
             onClick = {
-                Toast.makeText( context, "1 clicked!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "1 clicked!", Toast.LENGTH_SHORT).show()
                 selectedIndex.value = 0
 
             })
@@ -110,7 +109,7 @@ fun BottomBarContainer() {
             label = { Text(text = "Label") },
             selected = (selectedIndex.value == 1),
             onClick = {
-                Toast.makeText( context, "2 clicked!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "2 clicked!", Toast.LENGTH_SHORT).show()
                 selectedIndex.value = 1
             })
 
@@ -125,7 +124,7 @@ fun BottomBarContainer() {
             label = { Text(text = "Label") },
             selected = (selectedIndex.value == 2),
             onClick = {
-                Toast.makeText( context, "3 clicked!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "3 clicked!", Toast.LENGTH_SHORT).show()
                 selectedIndex.value = 2
             })
     }
@@ -148,8 +147,8 @@ fun Content(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .background(color = colorResource(id = R.color.background))
             .padding(start = 0.dp, top = 0.dp, end = 0.dp, bottom = 50.dp)
-            ) {
-        items(countryList){model ->
+    ) {
+        items(countryList) { model ->
             ItemContainer(model = model)
         }
     }
@@ -157,28 +156,33 @@ fun Content(modifier: Modifier = Modifier) {
 
 @Composable
 fun ItemContainer(model: Country) {
-    val context= LocalContext.current
-    Card(modifier = Modifier
-        .padding(8.dp)
-        .fillMaxWidth()
-        .clickable {
-            Toast
-                .makeText(context, "clicked on: " + model.name, Toast.LENGTH_SHORT)
-                .show()
-        },
+    val context = LocalContext.current
+    Card(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .clickable {
+                Toast
+                    .makeText(context, "clicked on: " + model.name, Toast.LENGTH_SHORT)
+                    .show()
+            },
         elevation = 4.dp,
         shape = RoundedCornerShape(size = 12.dp)
     ) {
-        Column(horizontalAlignment = Alignment.Start,) {
-            Text(text = model.name,
+        Column(horizontalAlignment = Alignment.Start) {
+            Text(
+                text = model.name,
                 style = MaterialTheme.typography.h6,
-                modifier = Modifier.padding(start = 16.dp))
-            Text(text = "Test",
+                modifier = Modifier.padding(start = 16.dp)
+            )
+            Text(
+                text = "Test",
                 style = MaterialTheme.typography.body1,
-                modifier = Modifier.padding(start = 16.dp))
+                modifier = Modifier.padding(start = 16.dp)
+            )
 
         }
-        Row (horizontalArrangement = Arrangement.End){
+        Row(horizontalArrangement = Arrangement.End) {
             Image(
                 painter = painterResource(id = model.image),
                 contentDescription = null,
@@ -189,11 +193,6 @@ fun ItemContainer(model: Country) {
         }
     }
 }
-
-
-
-
-
 
 @Preview(showBackground = true)
 @Composable
