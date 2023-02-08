@@ -176,7 +176,7 @@ fun ItemContainer(model: Country) {
             Text(
                 text = model.name,
                 style = MaterialTheme.typography.h6,
-                modifier = Modifier.padding(start = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, top = 17.dp)
             )
             Text(
                 text = "Test",
