@@ -82,7 +82,7 @@ fun TopBarContainer() {
     )
 }
 
-@Composable
+/*@Composable
 fun BottomBarContainer() {
     val selectedIndex = remember { mutableStateOf(0) }
     val context = LocalContext.current
@@ -136,7 +136,7 @@ fun BottomBarContainer() {
                 selectedIndex.value = 2
             })
     }
-}
+}*/
 
 @Composable
 fun Content(modifier: Modifier = Modifier) {
