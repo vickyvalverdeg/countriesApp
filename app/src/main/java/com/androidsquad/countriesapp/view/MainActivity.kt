@@ -1,5 +1,6 @@
 package com.androidsquad.countriesapp.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Window
 import android.widget.Toast
@@ -28,9 +29,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
+import coil.compose.rememberAsyncImagePainter
 import com.androidsquad.countriesapp.R
 import com.androidsquad.countriesapp.model.Country
 import com.androidsquad.countriesapp.viewModel.MainViewModel
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     val mainViewModel by viewModels<MainViewModel>()
@@ -64,7 +68,8 @@ fun TopBarContainer() {
         backgroundColor = colorResource(id = R.color.background_top_bar),
         actions = {
             IconButton(onClick = {
-                Toast.makeText(context, " account clicked!", Toast.LENGTH_SHORT).show()
+
+                //Toast.makeText(context, " account clicked!", Toast.LENGTH_SHORT).show()
             }) {
                 Image(
                     painter = painterResource(id = R.drawable.account_icon),
@@ -135,7 +140,9 @@ fun BottomBarContainer() {
 
 @Composable
 fun Content(modifier: Modifier = Modifier) {
+    val number = Random.nextInt(0, 10)
     val countryList = mutableListOf<Country>()
+    //countryList.add(Country("Asia", number))
     countryList.add(Country("Asia", R.drawable.asia_taj_mahal))
     countryList.add(Country("Africa", R.drawable.africa))
     countryList.add(Country("Europe", R.drawable.europa))
@@ -165,9 +172,7 @@ fun ItemContainer(model: Country) {
             .padding(8.dp)
             .fillMaxWidth()
             .clickable {
-                Toast
-                    .makeText(context, "clicked on: " + model.name, Toast.LENGTH_SHORT)
-                    .show()
+                context.startActivity(Intent(context, CountriesActivity::class.java).putExtra("continent",model.name))
             },
         elevation = 4.dp,
         shape = RoundedCornerShape(size = 12.dp)
@@ -176,7 +181,7 @@ fun ItemContainer(model: Country) {
             Text(
                 text = model.name,
                 style = MaterialTheme.typography.h6,
-                modifier = Modifier.padding(start = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, top = 17.dp)
             )
             Text(
                 text = "Test",
@@ -187,6 +192,7 @@ fun ItemContainer(model: Country) {
         }
         Row(horizontalArrangement = Arrangement.End) {
             Image(
+                //painter = rememberAsyncImagePainter("https://picsum.photos/640/400/?random=${model.image}"),
                 painter = painterResource(id = model.image),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,

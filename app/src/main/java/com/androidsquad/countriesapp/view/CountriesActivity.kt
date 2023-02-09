@@ -10,14 +10,16 @@ import androidx.compose.ui.tooling.preview.Preview
 class CountriesActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val extras = intent.extras
         setContent {
-            Greeting2("Android")
+            val name = extras?.getString("continent")
+            Greeting2(name)
         }
     }
 }
 
 @Composable
-fun Greeting2(name: String) {
+fun Greeting2(name: String?) {
     Text(text = "Hello $name!")
 }
 
