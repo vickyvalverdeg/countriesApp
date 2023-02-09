@@ -30,9 +30,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
+import coil.compose.rememberAsyncImagePainter
 import com.androidsquad.countriesapp.R
 import com.androidsquad.countriesapp.model.Country
 import com.androidsquad.countriesapp.viewModel.MainViewModel
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     val mainViewModel by viewModels<MainViewModel>()
@@ -138,7 +140,9 @@ fun BottomBarContainer() {
 
 @Composable
 fun Content(modifier: Modifier = Modifier) {
+    val number = Random.nextInt(0, 10)
     val countryList = mutableListOf<Country>()
+    //countryList.add(Country("Asia", number))
     countryList.add(Country("Asia", R.drawable.asia_taj_mahal))
     countryList.add(Country("Africa", R.drawable.africa))
     countryList.add(Country("Europe", R.drawable.europa))
@@ -188,6 +192,7 @@ fun ItemContainer(model: Country) {
         }
         Row(horizontalArrangement = Arrangement.End) {
             Image(
+                //painter = rememberAsyncImagePainter("https://picsum.photos/640/400/?random=${model.image}"),
                 painter = painterResource(id = model.image),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
