@@ -3,7 +3,6 @@ package com.androidsquad.countriesapp.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.Window
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -16,8 +15,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -29,12 +26,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
-import coil.compose.rememberAsyncImagePainter
 import com.androidsquad.countriesapp.R
-import com.androidsquad.countriesapp.model.Country
+import com.androidsquad.countriesapp.model.Continents
 import com.androidsquad.countriesapp.viewModel.MainViewModel
-import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     val mainViewModel by viewModels<MainViewModel>()
@@ -82,74 +76,17 @@ fun TopBarContainer() {
     )
 }
 
-@Composable
-fun BottomBarContainer() {
-    val selectedIndex = remember { mutableStateOf(0) }
-    val context = LocalContext.current
-    BottomNavigation(
-        backgroundColor = colorResource(id = R.color.background_bottom_bar),
-        elevation = 0.dp
-    ) {
-        BottomNavigationItem(icon = {
-            Image(
-                painter = painterResource(id = R.drawable.dot_icon),
-                contentDescription = "Label",
-                modifier = Modifier
-                    .size(20.dp)
-            )
-        },
-            label = { Text(text = "Label") },
-            selected = (selectedIndex.value == 0),
-            onClick = {
-                Toast.makeText(context, "1 clicked!", Toast.LENGTH_SHORT).show()
-                selectedIndex.value = 0
-
-            })
-
-        BottomNavigationItem(icon = {
-            Image(
-                painter = painterResource(id = R.drawable.triangle_icon),
-                contentDescription = "Label",
-                modifier = Modifier
-                    .size(20.dp)
-            )
-        },
-            label = { Text(text = "Label") },
-            selected = (selectedIndex.value == 1),
-            onClick = {
-                Toast.makeText(context, "2 clicked!", Toast.LENGTH_SHORT).show()
-                selectedIndex.value = 1
-            })
-
-        BottomNavigationItem(icon = {
-            Image(
-                painter = painterResource(id = R.drawable.triangle_icon),
-                contentDescription = "Label",
-                modifier = Modifier
-                    .size(20.dp)
-            )
-        },
-            label = { Text(text = "Label") },
-            selected = (selectedIndex.value == 2),
-            onClick = {
-                Toast.makeText(context, "3 clicked!", Toast.LENGTH_SHORT).show()
-                selectedIndex.value = 2
-            })
-    }
-}
 
 @Composable
 fun Content(modifier: Modifier = Modifier) {
-    val number = Random.nextInt(0, 10)
-    val countryList = mutableListOf<Country>()
-    //countryList.add(Country("Asia", number))
-    countryList.add(Country("Asia", R.drawable.asia_taj_mahal))
-    countryList.add(Country("Africa", R.drawable.africa))
-    countryList.add(Country("Europe", R.drawable.europa))
-    countryList.add(Country("North America", R.drawable.northamerica))
-    countryList.add(Country("Oceania", R.drawable.oceania))
-    countryList.add(Country("South America", R.drawable.southamerica))
-    countryList.add(Country("Antarctica", R.drawable.antarctica))
+    val continentsList = mutableListOf<Continents>()
+    continentsList.add(Continents("Asia", R.drawable.asia_taj_mahal))
+    continentsList.add(Continents("Africa", R.drawable.africa))
+    continentsList.add(Continents("Europe", R.drawable.europa))
+    continentsList.add(Continents("North America", R.drawable.northamerica))
+    continentsList.add(Continents("Oceania", R.drawable.oceania))
+    continentsList.add(Continents("South America", R.drawable.southamerica))
+    continentsList.add(Continents("Antarctica", R.drawable.antarctica))
 
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
@@ -158,28 +95,30 @@ fun Content(modifier: Modifier = Modifier) {
             .background(color = colorResource(id = R.color.background))
             .padding(start = 0.dp, top = 0.dp, end = 0.dp, bottom = 50.dp)
     ) {
-        items(countryList) { model ->
-            ItemContainer(model = model)
+        items(continentsList) { continents ->
+            ItemContainer(continents = continents)
         }
     }
 }
 
 @Composable
-fun ItemContainer(model: Country) {
+fun ItemContainer(continents: Continents) {
     val context = LocalContext.current
     Card(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
             .clickable {
-                context.startActivity(Intent(context, CountriesActivity::class.java).putExtra("continent",model.name))
+                context.startActivity(Intent(context,
+                    CountriesActivity::class.java)
+                    .putExtra("continent",continents.name))
             },
         elevation = 4.dp,
         shape = RoundedCornerShape(size = 12.dp)
     ) {
         Column(horizontalAlignment = Alignment.Start) {
             Text(
-                text = model.name,
+                text = continents.name,
                 style = MaterialTheme.typography.h6,
                 modifier = Modifier.padding(start = 16.dp, top = 17.dp)
             )
@@ -193,11 +132,11 @@ fun ItemContainer(model: Country) {
         Row(horizontalArrangement = Arrangement.End) {
             Image(
                 //painter = rememberAsyncImagePainter("https://picsum.photos/640/400/?random=${model.image}"),
-                painter = painterResource(id = model.image),
+                painter = painterResource(id = continents.image),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .size(88.dp)
+                    .size(80.dp)
             )
         }
     }
