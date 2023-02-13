@@ -1,5 +1,6 @@
 package com.androidsquad.countriesapp.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Window
@@ -12,6 +13,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -28,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.androidsquad.countriesapp.R
+import com.androidsquad.countriesapp.model.Continent
 import com.androidsquad.countriesapp.model.Continents
 import com.androidsquad.countriesapp.viewModel.MainViewModel
 
@@ -37,10 +40,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContent {
-            ViewContainer()
-
-            Surface(color = MaterialTheme.colors.background) {
-                mainViewModel.continentListResponse
+             Surface(color = MaterialTheme.colors.background) {
+                ViewContainer(mainViewModel.continentListResponse)
                 mainViewModel.getCountryList()
             }
         }
@@ -80,8 +81,9 @@ fun TopBarContainer() {
 
 
 @Composable
-fun Content(modifier: Modifier = Modifier) {
-    val continentsList = mutableListOf<Continents>()
+fun Content(continentList:List<Continents>) {
+    val arrayalgo = continentList[0].continents
+    //val continentsList = mutableListOf<Continents>()
 /*    continentsList.add(Continents("Asia", R.drawable.asia_taj_mahal))
     continentsList.add(Continents("Africa", R.drawable.africa))
     continentsList.add(Continents("Europe", R.drawable.europa))
@@ -97,14 +99,14 @@ fun Content(modifier: Modifier = Modifier) {
             .background(color = colorResource(id = R.color.background))
             .padding(start = 0.dp, top = 0.dp, end = 0.dp, bottom = 50.dp)
     ) {
-        items(continentsList) { continents ->
+        items(continentList[0].continents) { continents ->
             ItemContainer(continents = continents)
         }
     }
 }
 
 @Composable
-fun ItemContainer(continents: Continents) {
+fun ItemContainer(continents: Continent) {
     val context = LocalContext.current
     Card(
         modifier = Modifier
@@ -113,7 +115,7 @@ fun ItemContainer(continents: Continents) {
             .clickable {
                 context.startActivity(Intent(context,
                     CountriesActivity::class.java)
-                    .putExtra("continent","continents.name"))
+                    .putExtra("continent",continents.name))
             },
         elevation = 4.dp,
         shape = RoundedCornerShape(size = 12.dp)
@@ -144,15 +146,14 @@ fun ItemContainer(continents: Continents) {
     }
 }
 
-@Preview(showBackground = true)
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun ViewContainer(modifier: Modifier = Modifier) {
+fun ViewContainer(continentList:List<Continents>) {
     val scaffoldState = rememberScaffoldState()
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = { TopBarContainer() },
         bottomBar = { BottomBarContainer() }
-    ) { padding ->
-        Content(modifier = Modifier.padding(padding))
+    ) {Content(continentList)
     }
 }
