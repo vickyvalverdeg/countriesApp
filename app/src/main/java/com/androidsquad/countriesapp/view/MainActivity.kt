@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.androidsquad.countriesapp.R
 import com.androidsquad.countriesapp.model.Continents
 import com.androidsquad.countriesapp.viewModel.MainViewModel
@@ -39,6 +40,7 @@ class MainActivity : ComponentActivity() {
             ViewContainer()
 
             Surface(color = MaterialTheme.colors.background) {
+                mainViewModel.continentListResponse
                 mainViewModel.getCountryList()
             }
         }
@@ -80,13 +82,13 @@ fun TopBarContainer() {
 @Composable
 fun Content(modifier: Modifier = Modifier) {
     val continentsList = mutableListOf<Continents>()
-    continentsList.add(Continents("Asia", R.drawable.asia_taj_mahal))
+/*    continentsList.add(Continents("Asia", R.drawable.asia_taj_mahal))
     continentsList.add(Continents("Africa", R.drawable.africa))
     continentsList.add(Continents("Europe", R.drawable.europa))
     continentsList.add(Continents("North America", R.drawable.northamerica))
     continentsList.add(Continents("Oceania", R.drawable.oceania))
     continentsList.add(Continents("South America", R.drawable.southamerica))
-    continentsList.add(Continents("Antarctica", R.drawable.antarctica))
+    continentsList.add(Continents("Antarctica", R.drawable.antarctica))*/
 
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
@@ -111,14 +113,14 @@ fun ItemContainer(continents: Continents) {
             .clickable {
                 context.startActivity(Intent(context,
                     CountriesActivity::class.java)
-                    .putExtra("continent",continents.name))
+                    .putExtra("continent","continents.name"))
             },
         elevation = 4.dp,
         shape = RoundedCornerShape(size = 12.dp)
     ) {
         Column(horizontalAlignment = Alignment.Start) {
             Text(
-                text = continents.name,
+                text = "continents.name",
                 style = MaterialTheme.typography.h6,
                 modifier = Modifier.padding(start = 16.dp, top = 17.dp)
             )
@@ -131,8 +133,8 @@ fun ItemContainer(continents: Continents) {
         }
         Row(horizontalArrangement = Arrangement.End) {
             Image(
-                //painter = rememberAsyncImagePainter("https://picsum.photos/640/400/?random=${model.image}"),
-                painter = painterResource(id = continents.image),
+                painter = rememberAsyncImagePainter("https://picsum.photos/640/400/?random=1"),
+                //painter = painterResource(id = continents.image),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

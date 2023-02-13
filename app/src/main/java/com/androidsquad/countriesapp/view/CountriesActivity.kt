@@ -91,13 +91,13 @@ fun CardContainer(modifier: Modifier = Modifier) {
     //numero random para generar la url de la imagen
     val number = Random.nextInt(1, 100)
     val countryList= mutableListOf<Country>()
-    countryList.add(Country("Chile", "Santiago", "Spanish", "CLP", number ))
+/*    countryList.add(Country("Chile", "Santiago", "Spanish", "CLP", number ))
     //Log.i("Numero random es:" , number.toString())
     countryList.add(Country("Ecuador", "Quito", "Spanish", "USD", number))
     countryList.add(Country("Peru", "Lima", "Spanish", "PEN", number))
     countryList.add(Country("Argentina", "Buenos Aires", "Spanish", "ARS", number))
     countryList.add(Country("Bolivia", "Sucre", "Spanish", "BOB", number))
-    countryList.add(Country("Colombia", "Bogota", "Spanish", "COP", number))
+    countryList.add(Country("Colombia", "Bogota", "Spanish", "COP", number))*/
 
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
@@ -134,7 +134,7 @@ fun CountryCard(country: Country) {
                 //painter = painterResource(id = country.image),
                 //esta painter ocupa rememberAsyncImagePainter(URL) para cargar una imagen
                 //desde una url de modos async
-                painter = rememberAsyncImagePainter("https://picsum.photos/640/400/?random={${country.image}}"),
+                painter = rememberAsyncImagePainter("https://picsum.photos/640/400/?random=1"),
                 contentDescription = "test",
                 contentScale = ContentScale.Crop,
                 //aca le digo a la imagen que ocupe to do el espacio disponible
@@ -154,7 +154,7 @@ fun CountryCard(country: Country) {
                     //desde country.lenguaje recogo el valor del lenguaje
                     //tambien en style ocupo el TextStyle para darle estilo al texto
                     //en este style le di sombra para que haga mejor contraste con las imagenes
-                    text = "Language " + country.language,
+                    text = "Language " + "country.language",
                     style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.W400,
                         color = colorResource(id = R.color.white), shadow = Shadow(Color.Black, offset = Offset(3.0f, 2f),
                             blurRadius = 0.5f))
