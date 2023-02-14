@@ -41,7 +41,10 @@ class MainActivity : ComponentActivity() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContent {
              Surface(color = MaterialTheme.colors.background) {
-                ViewContainer(mainViewModel.continentListResponse)
+                val listContinents = mainViewModel.continentListResponse
+                 if (listContinents.isNotEmpty()){
+                     ViewContainer(listContinents)
+                 }
                 mainViewModel.getCountryList()
             }
         }
@@ -122,12 +125,12 @@ fun ItemContainer(continents: Continent) {
     ) {
         Column(horizontalAlignment = Alignment.Start) {
             Text(
-                text = "continents.name",
+                text = continents.name,
                 style = MaterialTheme.typography.h6,
                 modifier = Modifier.padding(start = 16.dp, top = 17.dp)
             )
             Text(
-                text = "Test",
+                text = continents.countries.size.toString()+" countries",
                 style = MaterialTheme.typography.body1,
                 modifier = Modifier.padding(start = 16.dp)
             )
@@ -135,7 +138,7 @@ fun ItemContainer(continents: Continent) {
         }
         Row(horizontalArrangement = Arrangement.End) {
             Image(
-                painter = rememberAsyncImagePainter("https://picsum.photos/640/400/?random=1"),
+                painter = rememberAsyncImagePainter("https://picsum.photos/640/400/?random=${continents.countries.size}"),
                 //painter = painterResource(id = continents.image),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
