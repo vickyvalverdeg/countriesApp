@@ -91,14 +91,6 @@ fun CardContainer(modifier: Modifier = Modifier) {
     //numero random para generar la url de la imagen
     val number = Random.nextInt(1, 100)
     val countryList= mutableListOf<Country>()
-/*    countryList.add(Country("Chile", "Santiago", "Spanish", "CLP", number ))
-    //Log.i("Numero random es:" , number.toString())
-    countryList.add(Country("Ecuador", "Quito", "Spanish", "USD", number))
-    countryList.add(Country("Peru", "Lima", "Spanish", "PEN", number))
-    countryList.add(Country("Argentina", "Buenos Aires", "Spanish", "ARS", number))
-    countryList.add(Country("Bolivia", "Sucre", "Spanish", "BOB", number))
-    countryList.add(Country("Colombia", "Bogota", "Spanish", "COP", number))*/
-
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         modifier = Modifier

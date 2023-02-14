@@ -68,7 +68,6 @@ fun TopBarContainer() {
         backgroundColor = colorResource(id = R.color.background_top_bar),
         actions = {
             IconButton(onClick = {
-
                 //Toast.makeText(context, " account clicked!", Toast.LENGTH_SHORT).show()
             }) {
                 Image(
@@ -85,15 +84,6 @@ fun TopBarContainer() {
 
 @Composable
 fun Content(continentList:List<Continents>) {
-    val arrayalgo = continentList[0].continents
-    //val continentsList = mutableListOf<Continents>()
-/*    continentsList.add(Continents("Asia", R.drawable.asia_taj_mahal))
-    continentsList.add(Continents("Africa", R.drawable.africa))
-    continentsList.add(Continents("Europe", R.drawable.europa))
-    continentsList.add(Continents("North America", R.drawable.northamerica))
-    continentsList.add(Continents("Oceania", R.drawable.oceania))
-    continentsList.add(Continents("South America", R.drawable.southamerica))
-    continentsList.add(Continents("Antarctica", R.drawable.antarctica))*/
 
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
@@ -118,7 +108,8 @@ fun ItemContainer(continents: Continent) {
             .clickable {
                 context.startActivity(Intent(context,
                     CountriesActivity::class.java)
-                    .putExtra("continent",continents.name))
+                    .putExtra("continent",continents.name)
+                )
             },
         elevation = 4.dp,
         shape = RoundedCornerShape(size = 12.dp)
