@@ -22,8 +22,8 @@ class utilsTest {
         arrayContinents.add(continent)
         val continents = Continents(arrayContinents)
         val util = Utils()
-        val expected = util.countriesListToArrayString(continents, continent)
-        Assert.assertArrayEquals(expected.toArray(), util.countriesListToArrayString(continents, continent).toArray())
+        val expected = util.countriesListToArrayString(continent)
+        Assert.assertArrayEquals(expected.toArray(), util.countriesListToArrayString(continent).toArray())
 
     }
 }

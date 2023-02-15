@@ -32,6 +32,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.androidsquad.countriesapp.R
 import com.androidsquad.countriesapp.model.Continent
 import com.androidsquad.countriesapp.model.Continents
+import com.androidsquad.countriesapp.utils.Utils
 import com.androidsquad.countriesapp.viewModel.MainViewModel
 
 class MainActivity : ComponentActivity() {
@@ -101,6 +102,8 @@ fun Content(continentList:List<Continents>) {
 @Composable
 fun ItemContainer(continents: Continent) {
     val context = LocalContext.current
+    val utils = Utils();
+    val countriesList = utils.countriesListToArrayString(continents)
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -109,7 +112,8 @@ fun ItemContainer(continents: Continent) {
                 context.startActivity(Intent(context,
                     CountriesActivity::class.java)
                     .putExtra("continent",continents.name)
-                )
+                    .putStringArrayListExtra("countries", countriesList
+                ))
             },
         elevation = 4.dp,
         shape = RoundedCornerShape(size = 12.dp)

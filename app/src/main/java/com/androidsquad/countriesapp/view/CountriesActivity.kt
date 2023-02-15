@@ -1,8 +1,8 @@
 package com.androidsquad.countriesapp.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -23,17 +23,16 @@ import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.androidsquad.countriesapp.R
 import com.androidsquad.countriesapp.model.Country
+import java.util.ArrayList
 import kotlin.random.Random
 
 class CountriesActivity : ComponentActivity() {
@@ -48,8 +47,8 @@ class CountriesActivity : ComponentActivity() {
             // y de tener un valor de tipo string lo guarda
             //la idea de esto es que podamos saber que continente presiono el usuario
             //ahora mismo no esta siendo usada
-            val name = extras?.getString("continent")
-            ViewCountriesContainer()
+            val countries = extras?.getStringArrayList("countries")
+            ViewCountriesContainer(countries)
         }
     }
 }
@@ -87,10 +86,9 @@ fun TopBarCountriesContainer() {
 }
 
 @Composable
-fun CardContainer(modifier: Modifier = Modifier) {
+fun CardContainer(countries: ArrayList<String>?) {
     //numero random para generar la url de la imagen
     val number = Random.nextInt(1, 100)
-    val countryList= mutableListOf<Country>()
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         modifier = Modifier
@@ -99,8 +97,11 @@ fun CardContainer(modifier: Modifier = Modifier) {
             .padding(start = 0.dp, top = 0.dp, end = 0.dp, bottom = 50.dp)
     ) {
         //items es como hacer un for each
-        items(countryList){country->
-            CountryCard(country = country)
+        if (countries != null) {
+            items(countries.toMutableList()){country->
+                var countrySelected = Country(country, country, country)
+                CountryCard(country = countrySelected)
+            }
         }
     }
 }
@@ -196,15 +197,16 @@ fun CountryCard(country: Country) {
     }
 }
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun ViewCountriesContainer(modifier: Modifier = Modifier) {
+fun ViewCountriesContainer(countries: ArrayList<String>?) {
     val scaffoldState = rememberScaffoldState()
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = { TopBarCountriesContainer() },
         bottomBar = { BottomBarContainer() }
-    ) { padding ->
-        CardContainer(modifier = Modifier.padding(padding))
+    ) {
+        CardContainer(countries)
     }
 }
