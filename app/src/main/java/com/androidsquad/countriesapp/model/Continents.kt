@@ -1,6 +1,14 @@
 package com.androidsquad.countriesapp.model
 
-data class Continents(
+import com.google.gson.annotations.SerializedName
+
+data class Continent(
     val name: String,
-    val image: Int
+    val countries: List<Country>
+
+)
+
+data class Continents(
+    @SerializedName("continents")
+    val continents: List<Continent>
 )

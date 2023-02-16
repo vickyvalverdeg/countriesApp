@@ -1,5 +1,6 @@
 package com.androidsquad.countriesapp.model.service
 
+import com.androidsquad.countriesapp.model.Continents
 import com.androidsquad.countriesapp.model.Country
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
@@ -13,7 +14,7 @@ interface ApiService {
 
     @Headers("Content-Type: application/json")
     @POST("/")
-    suspend fun getCountries(@Body body: JsonObject) : List<Country>
+    suspend fun getCountries(@Body body: JsonObject) : Continents
 
     companion object {
         private var apiService: ApiService? = null
@@ -32,6 +33,7 @@ interface ApiService {
             if (apiService == null) {
                 apiService = Retrofit.Builder()
                     .baseUrl("https://countries.trevorblades.com")
+                    .addConverterFactory(DataConverterFactory())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .client(client)
                     .build().create(ApiService::class.java)
