@@ -41,11 +41,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContent {
-             Surface(color = MaterialTheme.colors.background) {
+            Surface(color = MaterialTheme.colors.background) {
                 val listContinents = mainViewModel.continentListResponse
-                 if (listContinents.isNotEmpty()){
-                     ViewContainer(listContinents)
-                 }
+                if (listContinents.isNotEmpty()) {
+                    ViewContainer(listContinents)
+                }
                 mainViewModel.getCountryList()
             }
         }
@@ -84,7 +84,7 @@ fun TopBarContainer() {
 
 
 @Composable
-fun Content(continentList:List<Continents>) {
+fun Content(continentList: List<Continents>) {
 
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
@@ -94,38 +94,57 @@ fun Content(continentList:List<Continents>) {
             .padding(start = 0.dp, top = 0.dp, end = 0.dp, bottom = 50.dp)
     ) {
         items(continentList[0].continents) { continents ->
-            ItemContainer(continents = continents)
+            val imageId: Int=
+            when (continents.code) {
+                "AF" -> R.drawable.africa
+                "AN" -> R.drawable.antarctica
+                "AS" -> R.drawable.asia_taj_mahal
+                "EU" -> R.drawable.europa
+                "NA" -> R.drawable.northamerica
+                "OC" -> R.drawable.oceania
+                "SA" -> R.drawable.southamerica
+                else ->{
+                    R.drawable.asia_taj_mahal
+                }
+            }
+            val continentWhithImage= Continent(continents.name, continents.countries, imageId, continents.code)
+            ItemContainer(continent = continentWhithImage)
         }
     }
 }
 
 @Composable
-fun ItemContainer(continents: Continent) {
+fun ItemContainer(continent: Continent) {
     val context = LocalContext.current
     val utils = Utils();
-    val countriesList = utils.countriesListToArrayString(continents)
+    val countriesList = utils.countriesListToArrayString(continent)
     Card(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
             .clickable {
-                context.startActivity(Intent(context,
-                    CountriesActivity::class.java)
-                    .putExtra("continent",continents.name)
-                    .putStringArrayListExtra("countries", countriesList
-                ))
+                context.startActivity(
+                    Intent(
+                        context,
+                        CountriesActivity::class.java
+                    )
+                        .putExtra("continent", continent.name)
+                        .putStringArrayListExtra(
+                            "countries", countriesList
+                        )
+                )
             },
         elevation = 4.dp,
         shape = RoundedCornerShape(size = 12.dp)
     ) {
         Column(horizontalAlignment = Alignment.Start) {
             Text(
-                text = continents.name,
+                text = continent.name,
                 style = MaterialTheme.typography.h6,
                 modifier = Modifier.padding(start = 16.dp, top = 17.dp)
             )
             Text(
-                text = continents.countries.size.toString()+" countries",
+                text = continent.countries.size.toString() + " countries",
                 style = MaterialTheme.typography.body1,
                 modifier = Modifier.padding(start = 16.dp)
             )
@@ -133,8 +152,7 @@ fun ItemContainer(continents: Continent) {
         }
         Row(horizontalArrangement = Arrangement.End) {
             Image(
-                painter = rememberAsyncImagePainter("https://picsum.photos/640/400/?random=${continents.countries.size}"),
-                //painter = painterResource(id = continents.image),
+                painter = painterResource(id = continent.image!!),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -146,12 +164,13 @@ fun ItemContainer(continents: Continent) {
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun ViewContainer(continentList:List<Continents>) {
+fun ViewContainer(continentList: List<Continents>) {
     val scaffoldState = rememberScaffoldState()
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = { TopBarContainer() },
         bottomBar = { BottomBarContainer() }
-    ) {Content(continentList)
+    ) {
+        Content(continentList)
     }
 }
