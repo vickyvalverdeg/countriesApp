@@ -24,6 +24,5 @@ class utilsTest {
         val util = Utils()
         val expected = util.countriesListToArrayString(continent)
         Assert.assertArrayEquals(expected.toArray(), util.countriesListToArrayString(continent).toArray())
-
     }
 }

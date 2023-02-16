@@ -3,6 +3,7 @@ package com.androidsquad.countriesapp.view
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.androidsquad.countriesapp.R
 import com.androidsquad.countriesapp.model.Country
+import com.androidsquad.countriesapp.utils.Utils
 import java.util.ArrayList
 import kotlin.random.Random
 
@@ -99,7 +101,12 @@ fun CardContainer(countries: ArrayList<String>?) {
         //items es como hacer un for each
         if (countries != null) {
             items(countries.toMutableList()){country->
-                var countrySelected = Country(country, country, country)
+                val utils = Utils()
+                val name = utils.getNameCountryByJson(country)
+                val capital = utils.getCapitalByJson(country)
+                val currency = utils.getCurrencyByJson(country)
+                Log.i("Country", country)
+                var countrySelected = Country(name, capital, currency)
                 CountryCard(country = countrySelected)
             }
         }
