@@ -87,8 +87,6 @@ fun TopBarCountriesContainer() {
 
 @Composable
 fun CardContainer(countries: ArrayList<String>?) {
-    //numero random para generar la url de la imagen
-    val number = Random.nextInt(1, 100)
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         modifier = Modifier
@@ -108,54 +106,36 @@ fun CardContainer(countries: ArrayList<String>?) {
 
 @Composable
 fun CountryCard(country: Country) {
+    val number = Random.nextInt(1, 100)
     Card(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-                //con sizeIn le doy el alto que tendra la card propiamente tal
-                //en este caso 120dp porque ese el tamaño que sale en figma
             .sizeIn(maxHeight = 120.dp),
         elevation = 4.dp,
         shape = RoundedCornerShape(size = 12.dp)
     ) {
-        //box principal que contendra imagen y textos
-        //tambien se le da el alto, falta probar si con .fillMaxSize funciona
         Box(modifier = Modifier.height(120.dp)
         ) {
             Image(
-                //este painter comentado es el clasico para pintar una imagen
-                //painter = painterResource(id = country.image),
-                //esta painter ocupa rememberAsyncImagePainter(URL) para cargar una imagen
-                //desde una url de modos async
-                painter = rememberAsyncImagePainter("https://picsum.photos/640/400/?random=1"),
+                painter = rememberAsyncImagePainter("https://picsum.photos/640/400/?random=${number}"),
                 contentDescription = "test",
                 contentScale = ContentScale.Crop,
-                //aca le digo a la imagen que ocupe to do el espacio disponible
-                //asi queda a tamaño completo de la card
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()
             )
-            //este box es solo para mostrar el lenguaje
-            //tambien ocupa to do el tamaño disponible
             Box(modifier = Modifier
                 .padding(10.dp)
                 .fillMaxSize(),
-                //con esto especifico donde debe mostrarse
                 contentAlignment = Alignment.BottomStart) {
                 Text(
-                    //desde country.lenguaje recogo el valor del lenguaje
-                    //tambien en style ocupo el TextStyle para darle estilo al texto
-                    //en este style le di sombra para que haga mejor contraste con las imagenes
-                    text = "Language " + "country.language",
-                    style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.W400,
+                   text = "Capital " + country.capital,
+                    style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.W500,
                         color = colorResource(id = R.color.white), shadow = Shadow(Color.Black, offset = Offset(3.0f, 2f),
                             blurRadius = 0.5f))
                 )
             }
-            //en este box se da el tamaño maximo disponible
-            //y su alineacion que es centro
-            //tambien de agrega una columna para poder texto uno debajo del otro
             Box(modifier = Modifier
                 .padding(10.dp)
                 .fillMaxSize(),
@@ -164,21 +144,13 @@ fun CountryCard(country: Country) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = country.name.uppercase(),
-                        style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.W400,
-                            color = colorResource(id = R.color.white), shadow = Shadow(Color.Black, offset = Offset(3.0f, 2f),
-                                blurRadius = 0.5f))
-                    )
-                    Text(
-                        text = country.capital,
-                        style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.W400,
+                        style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.W500,
                             color = colorResource(id = R.color.white), shadow = Shadow(Color.Black, offset = Offset(3.0f, 2f),
                                 blurRadius = 0.5f))
                     )
                 }
 
             }
-            //ultimo box para mostrar la moneda
-            //se le da la alineacion del final abajo
             Box(modifier = Modifier
                 .padding(10.dp)
                 .fillMaxSize(),
@@ -186,7 +158,7 @@ fun CountryCard(country: Country) {
             ){
                 Text(
                     text = "Currency " + country.currency,
-                    style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.W400,
+                    style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.W500,
                         color = colorResource(id = R.color.white), shadow = Shadow(Color.Black, offset = Offset(3.0f, 2f),
                             blurRadius = 0.5f))
                 )
