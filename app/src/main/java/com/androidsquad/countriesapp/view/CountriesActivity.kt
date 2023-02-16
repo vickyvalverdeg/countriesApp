@@ -3,6 +3,7 @@ package com.androidsquad.countriesapp.view
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -32,21 +33,15 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.androidsquad.countriesapp.R
 import com.androidsquad.countriesapp.model.Country
+import com.androidsquad.countriesapp.utils.Utils
 import java.util.ArrayList
 import kotlin.random.Random
 
 class CountriesActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //los extras son para enviar y recibir datos entre actividades
-        //entonces esta variable guarda los datos que trae el intent
         val extras = intent.extras
         setContent {
-            // en la variable name se guardara el dato que queramos recuperar
-            //en este caso se pregunta por la key 'continent' (que se crea en la activity que envia el dato)
-            // y de tener un valor de tipo string lo guarda
-            //la idea de esto es que podamos saber que continente presiono el usuario
-            //ahora mismo no esta siendo usada
             val countries = extras?.getStringArrayList("countries")
             ViewCountriesContainer(countries)
         }
@@ -67,13 +62,8 @@ fun TopBarCountriesContainer() {
             )
         },
         backgroundColor = colorResource(id = R.color.background_top_bar),
-        //tuve que agregar el navigation icon para poner el boton back, porque
-        //para lo del manifest que te contaba es para una vesion antigua
         navigationIcon = {
-            //en el onclick tengo que decirle a donde regresar
             IconButton(onClick = {
-                //esta context.startActivity es la encargada de mostrar la actividad
-                //que se le declare
                 context.startActivity(
                     Intent(context,
                     MainActivity::class.java))
@@ -97,7 +87,12 @@ fun CardContainer(countries: ArrayList<String>?) {
         //items es como hacer un for each
         if (countries != null) {
             items(countries.toMutableList()){country->
-                var countrySelected = Country(country, country, country)
+                val utils = Utils()
+                val name = utils.getNameCountryByJson(country)
+                val capital = utils.getCapitalByJson(country)
+                val currency = utils.getCurrencyByJson(country)
+                Log.i("Country", country)
+                var countrySelected = Country(name, capital, currency)
                 CountryCard(country = countrySelected)
             }
         }
@@ -169,7 +164,6 @@ fun CountryCard(country: Country) {
     }
 }
 
-//@Preview(showBackground = true)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ViewCountriesContainer(countries: ArrayList<String>?) {
